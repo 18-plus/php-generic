@@ -1,0 +1,70 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>%title%</title>
+  <meta name="description" content="The AgeGate Page">
+  <meta name="author" content="SitePoint">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+<style>
+    div, p {
+        font-family: 'Gill Sans';
+    }
+</style>
+
+<body style="background:#F7F1F1;">
+    <div class="container" style="margin-top: 30px">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-xs-10 text-center">
+                <div style="%showLogo%">
+                    <img src="%siteLogo%" style="width:80px;height:80px;"><br><br>
+                </div>
+                <h1 style="font-weight:bold;">Age Gate</h1><br>
+                <p style="font-weight:bold;">You are visiting this website from within the United Kingdom. To proceed please verify your age.</p>
+                <p style="font-weight:bold;">Pursuant to The Digital Economy Act 2017, we are required to verify that all visitors to this website are least age 18. Further information about this law can be found https://www.ageverificationregular.com/</p>
+                <img src="%plus18Img%" style="width:80px;height:80px;"><br><br>
+                <a href="%deepurl%">%qrCode%</a><br><br>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4 col-xs-8 text-center">
+                <p style="font-weight:bold;">Scan the QR from your camera or click here to verify your age.</p>
+                <p style="font-weight:bold;">You need to have the 18+ app installed.<br>You can download it here</p>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center" style="margin-bottom:30px;">
+            <div class="col-md-12 col-xs-12 text-center">
+                <a style="margin-right:20px;" href="https://www.apple.com/la/ios/app-store/"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"></a>
+                <a href="https://play.google.com/store"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Get_it_on_Google_play.svg"></a>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var sendVerifyRequest = function() {
+        var xhr = new XMLHttpRequest();
+        var url = location.href;
+        
+        url += (location.search) ? '&' : '?';
+        url += 'ajaxVerify=true';
+        
+        xhr.open('GET', url, true);
+        xhr.send();
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState != 4) return;
+            
+            if (xhr.status == 200 && xhr.responseText == 'done') {
+                location.reload();
+            }
+        }
+        setTimeout(sendVerifyRequest, 3000);
+    };
+    sendVerifyRequest();
+</script>
+</html>

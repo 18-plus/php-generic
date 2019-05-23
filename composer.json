@@ -1,0 +1,29 @@
+{
+    "name": "eighteenplus/agegate",
+    "description": "18+ Age Gate for Adult Websites",
+    "keywords": ["eighteenplus", "agegate"],
+    "homepage": "https://18plus.org",
+    "type": "library",
+    "license": "BSD-3-Clause",
+    "version": "2.0.2",
+    "authors": [
+        {
+            "name": "***",
+            "email": "you@you.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4",
+        "firebase/php-jwt": "^5.0",
+        "endroid/qr-code": "^3.6"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "EighteenPlus\\AgeGate\\": "AgeGate/"
+        }
+    }
+}
+ 
