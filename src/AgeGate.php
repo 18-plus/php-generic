@@ -2,7 +2,7 @@
 namespace EighteenPlus\AgeGate;
 
 use Firebase\JWT\JWT;
-use Endroid\QrCode\QrCode;
+use jucksearm\barcode\QRcode;
 
 class AgeGate 
 {
@@ -11,10 +11,16 @@ class AgeGate
         $this->title = 'The AgeGate Page';
         $this->baseUrl = $baseUrl;
         $this->siteLogo = null;
+        $this->testIp = null;
+        $this->startFrom = '2019-07-15T12:00';
     }
     
     public function run()
     {
+        if (!$this->canStart()) {
+            return;
+        }
+        
         // postback request
         if (isset($_REQUEST['agecheck'])) {
             echo $this->callbackVerify();
@@ -37,9 +43,14 @@ class AgeGate
         }
     }
     
+    private function canStart()
+    {
+        return strtotime($this->startFrom) <= time();
+    }
+    
     public function setTitle($title)
     {
-        if (!is_null($title)) {            
+        if ($title) {            
             $this->title = $title;
         }
     }
@@ -51,8 +62,26 @@ class AgeGate
         }
     }
     
+    public function setTestIp($testIp)
+    {
+        if ($testIp) {
+            $this->testIp = $testIp;
+        }
+    }
+    
+    public function setStartFrom($startFrom)
+    {
+        if ($startFrom) {
+            $this->startFrom = $startFrom;
+        }
+    }
+    
     public function IPCheck() 
     {
+        if ($this->testIp == Utils::getClientIp()) {
+            return true;
+        }
+        
         return Utils::isGB(Utils::getClientIp());
     }
     
@@ -106,16 +135,18 @@ class AgeGate
         }
         
         $deepurl = Utils::makeUrl($this->baseUrl);
-        $qrCode = new QrCode($deepurl);
-        $qrCode->setWriterByName('svg', 'data:image/svg+xml;base64');
+        $qrcode = QRcode::factory();
+        $qrcode->setCode($deepurl);
+        $qrcode->setSize(300);
+        $qrCode = $qrcode->getQRcodePngData();
         
         return $this->renderTemplate([
             'plus18Img' => Utils::imgToBase64(__DIR__.'/assets/logo.png'),
-            'deepurl' => $deepurl, 
-            'qrCode' => $qrCode->writeString(),
-            'title' => $this->title,
-            'siteLogo' => $this->siteLogo,
-            'showLogo' => $this->siteLogo ? 'display: block' : 'display: none;',
+            'deepurl'   => $deepurl, 
+            'title'     => $this->title,
+            'qrCode'    => Utils::imgToBase64($qrCode),
+            'siteLogo'  => $this->siteLogo,
+            'showLogo'  => $this->siteLogo ? 'display: block' : 'display: none;',
         ]);
     }
     

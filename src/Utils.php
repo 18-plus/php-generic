@@ -59,9 +59,10 @@ class Utils
         $ip2 = Utils::IPToUint32($ip1);
         $count = count(ipranges);
         for ($i = 0; $i < $count; $i += 2) {
-            if (!isset(ipranges[$i+1])) {
+            if (!array_key_exists($i+1, ipranges)) {
                 return false;
             }
+            
             if (ipranges[$i] <= $ip2 && $ip2 <= ipranges[$i+1]) {
                 return true;
             }
@@ -85,12 +86,16 @@ class Utils
     
     public static function imgToBase64($img)
     {
-        $im = imagecreatefrompng($img);
-        ob_start(); // Start buffering the output
-        imagepng($im, null, 0, PNG_NO_FILTER);
-        $b64 = base64_encode(ob_get_contents()); // Get what we've just outputted and base64 it
-        imagedestroy($im);
-        ob_end_clean();
+        if (ctype_print($img) && file_exists( $img )) {            
+            $im = imagecreatefrompng($img);
+            ob_start(); // Start buffering the output
+            imagepng($im, null, 0, PNG_NO_FILTER);
+            $b64 = base64_encode(ob_get_contents()); // Get what we've just outputted and base64 it
+            imagedestroy($im);
+            ob_end_clean();
+        } else {
+            $b64 = base64_encode($img);
+        }
         
         return "data:image/png;base64," . $b64;
     }
