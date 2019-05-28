@@ -84,6 +84,29 @@ class Utils
         return $url;
     }
     
+    public static function insertLogo($qrCode)
+    {
+        $qr = imagecreatefromstring($qrCode);
+        $qr_height = imagesy($qr);
+        $qr_width  = imagesx($qr);
+        
+        $logo_height = $qr_height / 4;
+        $logo_width = $qr_width / 4;
+        
+        $logo = imagecreatefrompng(__DIR__ . '/assets/emblem.png');
+        $logo = imagescale($logo, $logo_height, $logo_width, IMG_BICUBIC);
+        
+        imagecopy($qr, $logo, ($qr_height - $logo_height) / 2, ($qr_width - $logo_width) / 2, 0, 0, $logo_height, $logo_width);
+        
+        ob_start();
+        imagepng($qr);
+        $qrCode = ob_get_contents();
+        imagedestroy($qr);
+        ob_end_clean();
+        
+        return $qrCode;
+    }
+    
     public static function imgToBase64($img)
     {
         if (ctype_print($img) && file_exists( $img )) {            

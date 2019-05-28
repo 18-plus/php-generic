@@ -6,41 +6,87 @@
   <meta name="description" content="The AgeGate Page">
   <meta name="author" content="SitePoint">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/2.5.3/css/bootstrap-colorpicker.min.css">
 </head>
-<style>
-    div, p {
-        font-family: 'Gill Sans';
-    }
+<style>   
+    @media (max-width: 768px) {            
+        .mainDivAgeGate {                
+            width: 330px !important;            
+        }            
+        .bgMainDivAgegate {               
+            background-image: url('https://global.cdn.18plus.org/img/agegate_bkgd_600.png') !important            
+        }            
+        .childDivAgeGate {                
+            width: 100% !important;                
+            padding-top: 45px !important;            
+        }            
+        .childDivSecond {                
+            display: none !important;            
+        }        
+    }        
+    @media (min-width: 768px) {            
+        .mobileSpanAgeGate {               
+            display: none !important;            
+        }           
+        .mainDivAgeGate {                
+            width: 692px !important;            
+        }            
+        .bgMainDivAgegate {               
+            background-image: url('https://global.cdn.18plus.org/img/agegate_bkgd_1200.png') !important            
+        }            
+        .childDivAgeGate {                
+            width: 50% !important;                
+            padding-top: 60px !important;            
+        }            
+        .childDivSecond {                
+            display: inline-block !important;            
+        }        
+    }           
 </style>
 
-<body style="background:#F7F1F1;">
-    <div class="container" style="margin-top: 30px">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-xs-10 text-center">
+<body>
+    <div id="agegate" style="border: none !important; visibility: visible !important; opacity: 1 !important; background-image: none !important; padding: 0px !important; z-index: 99999 !important; min-height: unset !important; max-height: unset !important; min-width: unset !important; left: 0px !important; top: 0px !important; background-color: rgb(247, 241, 241) !important; display: grid !important; overflow-y: auto !important; margin: 0px !important; height: 100% !important; width: 100% !important; position: fixed !important; max-width: unset !important;">
+        <div class="bgMainDivAgegate" style="border: none !important; display: block !important; visibility: visible !important; opacity: 1 !important; padding: 0px !important; z-index: 99999 !important; min-height: unset !important; max-height: unset !important; min-width: unset !important; left: 0px !important; top: 0px !important; background-color: %backgroundColor% !important; background-repeat: no-repeat !important; background-attachment: fixed !important; background-position: center top !important; width: 100% !important; margin: 0px !important; height: 100% !important; position: unset !important; max-width: unset !important;">
+            <link href="https://fonts.googleapis.com/css?family=Cabin:400,500&amp;display=swap" rel="stylesheet">
+            <link id="ageGateFontId" href="https://fonts.googleapis.com/css?family=Cormorant+Infant:500&amp;display=swap" rel="stylesheet">
+            <div style="border: none !important;display:block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;padding: 0px !important;z-index: 99999 !important;background-color: transparent !important;min-height: unset !important;max-height: unset !important;min-width: unset !important;left: 0px !important;top: 0px !important;margin-top: 30px !important;width: 95% !important;margin-left: auto !important;margin-right: auto !important;text-align: center !important;color: %textColor% !important;   font-family: 'Cabin', sans-serif !important;height: initial !important;position: initial !important;float: none !important;max-width: 760px !important;">
                 <div style="%showLogo%">
-                    <img src="%siteLogo%" style="width:80px;height:80px;"><br><br>
+                    <img src="%siteLogo%" style="max-width: 200px;max-height: 101px;">
                 </div>
-                <h1 style="font-weight:bold;">Age Gate</h1><br>
-                <p style="font-weight:bold;">You are visiting this website from within the United Kingdom. To proceed please verify your age.</p>
-                <p style="font-weight:bold;">Pursuant to The Digital Economy Act 2017, we are required to verify that all visitors to this website are least age 18. Further information about this law can be found https://www.ageverificationregular.com/</p>
-                <img src="%plus18Img%" style="width:80px;height:80px;"><br><br>
-                <a href="%deepurl%"><img src="%qrCode%"></a><br><br>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-md-4 col-xs-8 text-center">
-                <p style="font-weight:bold;">Scan the QR from your camera or click here to verify your age.</p>
-                <p style="font-weight:bold;">You need to have the 18+ app installed.<br>You can download it here</p>
-            </div>
-        </div>
-        
-        <div class="row justify-content-center" style="margin-bottom:30px;">
-            <div class="col-md-12 col-xs-12 text-center">
-                <a style="margin-right:20px;" href="https://www.apple.com/la/ios/app-store/"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg"></a>
-                <a href="https://play.google.com/store"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Get_it_on_Google_play.svg"></a>
+                <p style="font-weight: bold;font-size: 22px;margin-top: 6px;line-height: 1.2;margin-bottom: .5rem;">%siteName%</p>
+                <h1 style="min-height: unset !important;max-height: unset !important;background-color: transparent !important;padding: 0px !important;    max-width: none !important;min-width: unset !important;width: 100% !important;margin-left: 0px !important;margin-right: 0px !important;float: none !important;text-align: center !important;color: #212529 !important;font-family: 'Cormorant Infant', serif !important;border: none !important;display: block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;height: initial !important;position: initial !important;font-weight: 500 !important;font-size: 40px !important;line-height: 1.2 !important;margin-top: 6px !important;margin-bottom: 1rem !important;">Age Gate</h1>
+                <p style="font-weight:normal;line-height: 1.5;margin-top: 5px;margin-bottom: 0px; %customLocationTopShow%">%customText%</p>
+                <p style="min-height: unset !important;max-height: unset !important;background-color: transparent !important;padding: 0px !important;    max-width: none !important;min-width: unset !important;width: 100% !important;margin-left: auto !important;margin-right: auto !important;float: none !important;text-align: center !important;font-family: 'Cabin', sans-serif !important;border: none !important;display: %removeVisiting% !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;height: initial !important;position: initial !important;font-weight: normal !important;font-size: 14px !important;line-height: 1.5 !important;margin-top: 5px !important;margin-bottom: 1rem !important;">You are visiting this website from within the United Kingdom. To proceed please verify your age.</p>
+                <p style="min-height: unset !important;max-height: unset !important;background-color: transparent !important;padding: 0px !important;    max-width: none !important;min-width: unset !important;width: 100% !important;margin-left: auto !important;margin-right: auto !important;float: none !important;text-align: center !important;font-family: 'Cabin', sans-serif !important;border: none !important;display: %removeReference% !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;height: initial !important;position: initial !important;font-weight: normal !important;font-size: 14px !important;line-height: 1.5 !important;margin-top: 5px !important;margin-bottom: 1rem !important;">Pursuant to The Digital Economy Act 2017, we are required to verify that all visitors to this website are least age 18. Further information about this law can be found    
+                    <a style="min-height: unset !important;max-height: unset !important;font-weight: normal !important;font-size: 14px !important;line-height: 1.5 !important;background-color: transparent !important;padding: 0px !important;max-width: none !important;min-width: unset !important;   width: 100% !important;margin-top: 5px !important;margin-bottom: 1rem !important;margin-left: 0px !important;margin-right: 0px !important;float: none !important;text-align: center !important;   color: #007bff !important;font-family: 'Cabin', sans-serif !important;border: none !important;display: inline !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;   z-index: 99999 !important;height: initial !important;position: initial !important;" href="https://www.ageverificationregulator.com">https://www.ageverificationregulator.com</a>
+                </p>
+                <p style="font-weight:normal;line-height: 1.5;margin-top: 5px;margin-bottom: 0px; %customLocationBottomShow%">%customText%</p>
+                <div style="border: none !important;display:block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;padding: 0px !important;z-index: 99999 !important;background-color: transparent !important;min-height: unset !important;max-height: unset !important;min-width: unset !important;left: 0px !important;top: 0px !important;padding-top: 20px !important;margin-bottom: 20px !important;margin-left: unset !important;margin-right: unset !important;margin-top: unset !important;                       padding-bottom: unset !important;padding-left: unset !important;padding-right: unset !important;position: unset !important;">
+                    <div class="mainDivAgeGate" style="border: none !important;display:block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;padding: 0px !important;z-index: 99999 !important;background-color: transparent !important;min-height: unset !important;max-height: unset !important;min-width: unset !important;left: 0px !important;top: 0px !important;background-color: white !important;height: 400px !important;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)  !important;       display: flex !important;padding-right: 0px !important;margin-left: auto !important;margin-right: auto !important;position: unset !important;margin-top: unset !important;margin-bottom: unset !important;">
+                        <div class="childDivAgeGate" style="border: none !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;background-color: transparent !important;min-height: unset !important;max-height: unset !important;min-width: unset !important;left: 0px !important;top: 0px !important;display: inline-block !important;height: 100% !important;margin: 0px !important;position: unset !important;padding-bottom: 0px !important;padding-left: 0px !important;padding-right: 0px !important;">
+                            <a href="%deepurl%" style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;margin-left: auto !important;margin-right: auto !important;display: block !important;width: 100px !important;height: 100px !important;min-width: 100px !important;max-width: 100px !important;max-height: 100px !important;min-height: 100px !important;">
+                            <img src="https://global.cdn.18plus.org/img/18plus_icon_small.png" style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;margin-left: auto !important;margin-right: auto !important;display: block !important;width: 100px !important;height: 100px !important;min-width: 100px !important;max-width: 100px !important;max-height: 100px !important;min-height: 100px !important;">
+                            </a>
+                            <p style="min-height: unset !important;max-height: unset !important;background-color: transparent !important;padding: 0px !important;    max-width: none !important;min-width: unset !important;width: 100% !important;margin-left: auto !important;margin-right: auto !important;float: none !important;text-align: center !important;color: #212529 !important;font-family: 'Cabin', sans-serif !important;border: none !important;display: block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;height: initial !important;position: initial !important;font-weight: normal !important;font-size: 14px !important;line-height: 1.5 !important;margin-top: 43px !important;margin-bottom: 15px !important;max-width: 300px !important;">
+                                <span style="display: block;margin-bottom: 10px;" class="mobileSpanAgeGate">Click the 18+ logo to start age verification with 18+</span>                            You need to have the 18+ app installed to verify. You can download it here: 
+                            </p>
+                            <div style="border: none !important;display:block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;padding: 0px !important;z-index: 99999 !important;background-color: transparent !important;min-height: unset !important;max-height: unset !important;min-width: unset !important;left: 0px !important;top: 0px !important;margin-bottom: 20px !important;margin-top: 0px !important;width: 95% !important;margin-left: auto !important;margin-right: auto !important;text-align: center !important;color: #212529 !important;   font-family: 'Cabin', sans-serif !important;height: initial !important;position: initial !important;float: none !important;max-width: 250px !important;">
+                                <a style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;display: inline-block !important; margin-left: auto !important;margin-right: auto !important;width: 135px !important;height: 40px !important;min-width: 135px !important;max-width: 135px !important;max-height: 40px !important;min-height: 40px !important;margin-right: auto !important;" href="https://www.apple.com/la/ios/app-store/">
+                                <img style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;display: inline-block !important; margin-left: auto !important;margin-right: auto !important;width: 135px !important;height: 40px !important;min-width: 135px !important;max-width: 135px !important;max-height: 40px !important;min-height: 40px !important;" src="https://global.cdn.18plus.org/img/download_on_the_App_Store_Badge.svg">
+                                </a>
+                                <a style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;display: inline-block !important; margin-left: auto !important;margin-right: auto !important;width: 135px !important;height: 40px !important;min-width: 135px !important;max-width: 135px !important;max-height: 40px !important;min-height: 40px !important;;margin-left: auto !important;margin-top: 7px !important;" href="https://play.google.com/store">
+                                <img style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;display: inline-block !important; margin-left: auto !important;margin-right: auto !important;width: 135px !important;height: 40px !important;min-width: 135px !important;max-width: 135px !important;max-height: 40px !important;min-height: 40px !important;" src="https://global.cdn.18plus.org/img/get_it_on_google_play.svg">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="childDivSecond" style="border: none !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;background-color: transparent !important;min-height: unset !important;max-height: unset !important;min-width: unset !important;left: 0px !important;top: 0px !important;width: 50% !important;text-align: center !important;padding-top: 30px !important;height: 100% !important;margin: 0px !important;position: unset !important;padding-bottom: 0px !important;padding-left: 0px !important;padding-right: 0px !important;">
+                            <a style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;margin-left: auto !important;margin-right: auto !important;display: block !important;width: 256px !important;height: 256px !important;min-width: 256px !important;max-width: 256px !important;max-height: 256px !important;min-height: 256px !important;" href="%deepurl%">
+                            <img style="float: none !important;position: unset !important;visibility: visible !important;margin-bottom: 0px !important;margin-top: 0px !important;padding: 0px !important;text-align: center !important;z-index: 9999 !important;background-image: none !important;opacity: 1 !important;margin-left: auto !important;margin-right: auto !important;display: block !important;width: 256px !important;height: 256px !important;min-width: 256px !important;max-width: 256px !important;max-height: 256px !important;min-height: 256px !important;" src="%qrCode%">
+                            </a>
+                            <p style="min-height: unset !important;max-height: unset !important;background-color: transparent !important;padding: 0px !important;    max-width: none !important;min-width: unset !important;width: 100% !important;margin-left: auto !important;margin-right: auto !important;float: none !important;text-align: center !important;color: #212529 !important;font-family: 'Cabin', sans-serif !important;border: none !important;display: block !important;visibility: visible !important;opacity: 1 !important;background-image: none !important;z-index: 99999 !important;height: initial !important;position: initial !important;max-width: 256px !important;font-weight: normal !important;font-size: 14px !important;line-height: 1.5 !important;margin-top: 0px !important;margin-bottom: 1rem !important;">Place the QR in view on your phone's camera or click on the QR code or 18+ icon to verify your age.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -67,4 +113,5 @@
     };
     sendVerifyRequest();
 </script>
+
 </html>

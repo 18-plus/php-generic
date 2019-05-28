@@ -8,11 +8,28 @@ class AgeGate
 {
     public function __construct($baseUrl = '')
     {
-        $this->title = 'The AgeGate Page';
         $this->baseUrl = $baseUrl;
+        
+        $this->title = 'The AgeGate Page';
         $this->siteLogo = null;
+        
+        $this->siteName = null;
+        $this->customText = null;
+        $this->customLocation = 'top';
+        
+        $this->backgroundColor = null;
+        $this->textColor = null;
+        
+        $this->removeReference = false;
+        $this->removeVisiting = false;
+        
+        $this->testMode = false;
+        $this->testAnyIp = false;
         $this->testIp = null;
+        
         $this->startFrom = '2019-07-15T12:00';
+        $this->desktopSessionLive = 24;
+        $this->mobileSessionLive = 24;
     }
     
     public function run()
@@ -27,9 +44,7 @@ class AgeGate
             exit;
         }
         
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        $this->sessionInit();
         
         // ajax verify check from template
         if (isset($_GET['ajaxVerify'])) {
@@ -43,9 +58,34 @@ class AgeGate
         }
     }
     
+    private function sessionInit()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
+        if (!isset($_SESSION['startedAt'])) {
+            $_SESSION['ageVerified'] = false;
+            $_SESSION['startedAt'] = time();
+        }
+        
+        $detect = new \Mobile_Detect();
+        if ($detect->isMobile() || $detect->isTablet()) {
+            $rate = $this->mobileSessionLive;
+        } else {
+            $rate = $this->desktopSessionLive;
+        }
+        
+        if ($_SESSION['startedAt'] + 3600 * $rate < time()) {
+            unset($_SESSION['startedAt']);
+            
+            return $this->sessionInit();
+        }
+    }
+    
     private function canStart()
     {
-        return strtotime($this->startFrom) <= time();
+        return $this->testMode || strtotime($this->startFrom) <= time();
     }
     
     public function setTitle($title)
@@ -62,6 +102,65 @@ class AgeGate
         }
     }
     
+    public function setSiteName($siteName)
+    {
+        if ($siteName) {
+            $this->siteName = $siteName;
+        }
+    }
+    
+    public function setCustomText($customText)
+    {
+        if ($customText) {
+            $this->customText = $customText;
+        }
+    }
+    
+    public function setCustomLocation($customLocation)
+    {
+        if ($customLocation) {
+            $this->customLocation = $customLocation;
+        }
+    }
+    
+    public function setBackgroundColor($backgroundColor)
+    {
+        if ($backgroundColor) {
+            $this->backgroundColor = $backgroundColor;
+        }
+    }
+    
+    public function setTextColor($textColor)
+    {
+        if ($textColor) {
+            $this->textColor = $textColor;
+        }
+    }
+    
+    public function setRemoveReference($removeReference)
+    {
+        if ($removeReference) {
+            $this->removeReference = $removeReference;
+        }
+    }
+    
+    public function setRemoveVisiting($removeVisiting)
+    {
+        if ($removeVisiting) {
+            $this->removeVisiting = $removeVisiting;
+        }
+    }
+    
+    public function setTestMode($testMode)
+    {
+        $this->testMode = (bool)$testMode;
+    }
+    
+    public function setTestAnyIp($testAnyIp)
+    {
+        $this->testAnyIp = (bool)$testAnyIp;
+    }
+    
     public function setTestIp($testIp)
     {
         if ($testIp) {
@@ -76,9 +175,23 @@ class AgeGate
         }
     }
     
+    public function setDesktopSessionLifetime($desktopSessionLive)
+    {
+        if ($desktopSessionLive) {
+            $this->desktopSessionLive = intval($desktopSessionLive);
+        }
+    }
+    
+    public function setMobileSessionLifetime($mobileSessionLive)
+    {
+        if ($mobileSessionLive) {
+            $this->mobileSessionLive = intval($mobileSessionLive);
+        }
+    }
+    
     public function IPCheck() 
     {
-        if ($this->testIp == Utils::getClientIp()) {
+        if ($this->testAnyIp || $this->testIp == Utils::getClientIp()) {
             return true;
         }
         
@@ -98,8 +211,6 @@ class AgeGate
     {
         // ajax request from template
         if (isset($_SESSION['ageVerified']) && $_SESSION['ageVerified']) {
-            session_regenerate_id(true);
-        
             return 'done';
         }
         
@@ -130,23 +241,32 @@ class AgeGate
 
     public function viewTemplate() 
     {
-        if (!isset($_SESSION['ageVerified'])) {
-            $_SESSION['ageVerified'] = false;
-        }
-        
         $deepurl = Utils::makeUrl($this->baseUrl);
-        $qrcode = QRcode::factory();
-        $qrcode->setCode($deepurl);
-        $qrcode->setSize(300);
-        $qrCode = $qrcode->getQRcodePngData();
+        $qrCode = QRcode::factory();
+        $qrCode->setCode($deepurl);
+        $qrCode->setSize(300);
+        $qrCode->setLevel('Q');
+        $qrCode = $qrCode->getQRcodePngData();
+        $qrCode = Utils::insertLogo($qrCode);
         
         return $this->renderTemplate([
-            'plus18Img' => Utils::imgToBase64(__DIR__.'/assets/logo.png'),
-            'deepurl'   => $deepurl, 
             'title'     => $this->title,
-            'qrCode'    => Utils::imgToBase64($qrCode),
             'siteLogo'  => $this->siteLogo,
             'showLogo'  => $this->siteLogo ? 'display: block' : 'display: none;',
+            
+            'siteName'  => $this->siteName,
+            'customText'  => $this->customText,
+            'customLocationTopShow'  => $this->customLocation == 'top' ? 'display: block;' : 'display: none;',
+            'customLocationBottomShow'  => $this->customLocation == 'bottom' ? 'display: block;' : 'display: none;',
+            
+            'backgroundColor' => $this->backgroundColor ?: 'rgb(247, 241, 241)',
+            'textColor' => $this->textColor ?: '#212529',
+            
+            'removeReference' => $this->removeReference ? 'none' : 'block',
+            'removeVisiting' => $this->removeVisiting ? 'none' : 'block',
+            
+            'deepurl'   => $deepurl, 
+            'qrCode'    => Utils::imgToBase64($qrCode),
         ]);
     }
     
