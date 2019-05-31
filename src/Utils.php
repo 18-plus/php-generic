@@ -84,19 +84,31 @@ class Utils
         return $url;
     }
     
-    public static function insertLogo($qrCode)
+    public static function insertLogo($qrCode, $siteLogo = null)
     {
         $qr = imagecreatefromstring($qrCode);
         $qr_height = imagesy($qr);
         $qr_width  = imagesx($qr);
         
+        $padding = $qr_height / 4 * 0.1;
         $logo_height = $qr_height / 4;
         $logo_width = $qr_width / 4;
         
-        $logo = imagecreatefrompng(__DIR__ . '/assets/emblem.png');
+        $base_height = $logo_height + $padding * 2;
+        $base_width = $logo_width + $padding * 2;
+        $base = imagecreatetruecolor($base_width, $base_height);
+        $white = imagecolorallocate($base, 255, 255, 255);
+        imagefill($base, 0, 0, $white);
+        
+        if ($siteLogo) {
+            $logo = self::imageCreateFromAny($siteLogo);
+        } else {            
+            $logo = imagecreatefrompng(__DIR__ . '/assets/emblem.png');
+        }
         $logo = imagescale($logo, $logo_height, $logo_width, IMG_BICUBIC);
         
-        imagecopy($qr, $logo, ($qr_height - $logo_height) / 2, ($qr_width - $logo_width) / 2, 0, 0, $logo_height, $logo_width);
+        imagecopy($base, $logo, $padding, $padding, 0, 0, $logo_height, $logo_width);
+        imagecopy($qr, $base, ($qr_height - $base_height) / 2, ($qr_width - $base_width) / 2, 0, 0, $base_height, $base_width);
         
         ob_start();
         imagepng($qr);
@@ -122,4 +134,32 @@ class Utils
         
         return "data:image/png;base64," . $b64;
     }
+    
+    private static function imageCreateFromAny($filepath) { 
+        $type = exif_imagetype($filepath); // [] if you don't have exif you could use getImageSize() 
+        $allowedTypes = array( 
+            1,  // [] gif 
+            2,  // [] jpg 
+            3,  // [] png 
+            6   // [] bmp 
+        ); 
+        if (!in_array($type, $allowedTypes)) { 
+            return false; 
+        } 
+        switch ($type) { 
+            case 1 : 
+                $im = imageCreateFromGif($filepath); 
+            break; 
+            case 2 : 
+                $im = imageCreateFromJpeg($filepath); 
+            break; 
+            case 3 : 
+                $im = imageCreateFromPng($filepath); 
+            break; 
+            case 6 : 
+                $im = imageCreateFromBmp($filepath); 
+            break; 
+        }    
+        return $im;  
+    } 
 }

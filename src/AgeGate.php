@@ -3,6 +3,7 @@ namespace EighteenPlus\AgeGate;
 
 use Firebase\JWT\JWT;
 use jucksearm\barcode\QRcode;
+use Jaybizzle\CrawlerDetect\CrawlerDetect;
 
 class AgeGate 
 {
@@ -85,6 +86,11 @@ class AgeGate
     
     private function canStart()
     {
+        $CrawlerDetect = new CrawlerDetect;
+        if ($CrawlerDetect->isCrawler()) {
+            return false;
+        }
+        
         return $this->testMode || strtotime($this->startFrom) <= time();
     }
     
@@ -247,7 +253,7 @@ class AgeGate
         $qrCode->setSize(300);
         $qrCode->setLevel('Q');
         $qrCode = $qrCode->getQRcodePngData();
-        $qrCode = Utils::insertLogo($qrCode);
+        $qrCode = Utils::insertLogo($qrCode, $this->siteLogo);
         
         return $this->renderTemplate([
             'title'     => $this->title,
