@@ -3,7 +3,6 @@ namespace EighteenPlus\AgeGate;
 
 use Firebase\JWT\JWT;
 use jucksearm\barcode\QRcode;
-use Jaybizzle\CrawlerDetect\CrawlerDetect;
 
 class AgeGate 
 {
@@ -87,6 +86,10 @@ class AgeGate
     private function canStart()
     {
         $CrawlerDetect = new CrawlerDetect;
+        $exclusions = new CrawlerExclusions();
+        $exclusions->add(array('PostmanRuntime\/[\d\.]*', 'Go-http-client\/[\d\.]*', 'AgeGate'));
+        $CrawlerDetect->setExclusions($exclusions);
+        
         if ($CrawlerDetect->isCrawler()) {
             return false;
         }
