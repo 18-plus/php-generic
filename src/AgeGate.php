@@ -39,7 +39,7 @@ class AgeGate
         }
         
         // postback request
-        if (isset($_REQUEST['agecheck'])) {
+        if (isset($_REQUEST['jwt'])) {
             echo $this->callbackVerify();
             exit;
         }
@@ -87,7 +87,7 @@ class AgeGate
     {
         $CrawlerDetect = new CrawlerDetect;
         $exclusions = new CrawlerExclusions();
-        $exclusions->add(array('PostmanRuntime\/[\d\.]*', 'Go-http-client\/[\d\.]*', 'AgeGate'));
+        $exclusions->add(array('PostmanRuntime\/[\d\.]*', 'Go-http-client\/[\d\.]*', 'Dalvik', '18Plus'));
         $CrawlerDetect->setExclusions($exclusions);
         
         if ($CrawlerDetect->isCrawler()) {
@@ -250,13 +250,15 @@ class AgeGate
 
     public function viewTemplate() 
     {
-        $deepurl = Utils::makeUrl($this->baseUrl);
+        $qrCodeUrl = Utils::makeUrl($this->baseUrl);
         $qrCode = QRcode::factory();
-        $qrCode->setCode($deepurl);
+        $qrCode->setCode($qrCodeUrl);
         $qrCode->setSize(300);
         $qrCode->setLevel('Q');
         $qrCode = $qrCode->getQRcodePngData();
         $qrCode = Utils::insertLogo($qrCode, $this->siteLogo);
+        
+        $deepurl = Utils::makeUrl($this->baseUrl, 2);
         
         return $this->renderTemplate([
             'title'     => $this->title,

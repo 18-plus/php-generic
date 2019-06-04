@@ -7,7 +7,9 @@ use Firebase\JWT\JWT;
 
 class Utils
 {
-    static $AgeCheckURL = "https://deep.reallyme.net/agecheck";
+    static $AgeCheckURL1 = "https://applink.18plus.org/agecheck";
+    static $AgeCheckURL2 = "org18plus://agecheck";
+    
     static $JWT_PUB = 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF6YjRtcjhqcHh3NXJSU2pqK1NEQQo2cG9GNlFmaXp4dEtUZlVWQTYwTG1XTXJQeS93MWF4KzBsb1lxWWRYT2lVRmhETWhSQ2JiQjVaTmhzcDFEbklnCm03NTdVMldIaXJhOVFQcUNXTmo4Ymo0L1dxN0FwT3hFT0ZQVWFLeTVZZlRjaWQxU3VLWHpZNDNWa21NYUdUYnUKOXFJTWRzcitHU2lTTmdzZlNEcVNIeG4wL0Z5aFFkZTcwbWZjMTh1V3h5ZGVXTm5hRkhjeUZpMWFsbWUyZGREZQpHSlRta043YkZUT2ZHZXM5RkdDZWZzckI3MDRMcE8wcHo2ZjhHNlhsVmZQb0IwY2liWno3SlpHU0g5bHB1RkVkCm5MM2RVRFdvL3BBNzR3REJsSncrVThZWkN3eG1jeFZLVWRwejV1ZUJOMGc1WnN0czhjQjV6Y2V2aHZHSUIzazMKOVFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==';
     
     public static function getClientIp() 
@@ -71,16 +73,26 @@ class Utils
         return false;
     }
     
-    public static function makeUrl($baseUrl) 
+    public static function makeUrl($baseUrl, $type = 1) 
     {
-        $returnURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+        $AgeCheckURL1 = self::$AgeCheckURL1;
+        $AgeCheckURL2 = self::$AgeCheckURL2;
         
         $publicKey = base64_decode(Utils::$JWT_PUB);
         $encoded = JWT::encode(session_id(), $publicKey, 'HS256');
-        $baseUrl .= '?jwt=' . $encoded;
-        $baseUrl .= '&agecheck=true';
-        $url = sprintf("%s?postback=%s&url=%s", self::$AgeCheckURL, urlencode($baseUrl), urlencode($returnURL));
-
+        
+        $postback = $baseUrl . '?jwt=' . $encoded;
+        
+        // detect deepurl for ios devices
+        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
+        if ($type == 2) {
+            if (strpos($ua, "iPhone") || strpos($ua, "iPad")) {
+                $type = 1;
+            }
+        }
+        
+        $url = sprintf("%s?postback=%s&deep=true", ${'AgeCheckURL' . $type}, urlencode($postback));
+        
         return $url;
     }
     
