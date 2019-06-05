@@ -254,11 +254,11 @@ class AgeGate
         $qrCode = QRcode::factory();
         $qrCode->setCode($qrCodeUrl);
         $qrCode->setSize(300);
-        $qrCode->setLevel('Q');
+        $qrCode->setLevel('H');
         $qrCode = $qrCode->getQRcodePngData();
         $qrCode = Utils::insertLogo($qrCode, $this->siteLogo);
         
-        $deepurl = Utils::makeUrl($this->baseUrl, 2);
+        $deepurl = Utils::makeUrl($this->baseUrl, true);
         
         return $this->renderTemplate([
             'title'     => $this->title,

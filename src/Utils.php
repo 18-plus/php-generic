@@ -73,7 +73,7 @@ class Utils
         return false;
     }
     
-    public static function makeUrl($baseUrl, $type = 1) 
+    public static function makeUrl($baseUrl, $deep = false) 
     {
         $AgeCheckURL1 = self::$AgeCheckURL1;
         $AgeCheckURL2 = self::$AgeCheckURL2;
@@ -85,13 +85,18 @@ class Utils
         
         // detect deepurl for ios devices
         $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        if ($type == 2) {
+        if ($deep) {
+            $type = 2;
             if (strpos($ua, "iPhone") || strpos($ua, "iPad")) {
                 $type = 1;
             }
+        } else {
+            $type = 1;
         }
         
-        $url = sprintf("%s?postback=%s&deep=true", ${'AgeCheckURL' . $type}, urlencode($postback));
+        $deep = $deep ? 'true' : 'false';
+        
+        $url = ${'AgeCheckURL' . $type} . "?postback=".urlencode($postback)."&deep={$deep}&agent=" .urlencode($ua);
         
         return $url;
     }
