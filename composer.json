@@ -1,11 +1,11 @@
 {
     "name": "eighteenplus/agegate",
-    "description": "18+ Age Gate for Adult Websites",
-    "keywords": ["eighteenplus", "agegate"],
-    "homepage": "https://18plus.org",
+    "description": "18+ Age Gateway for Adult Websites",
+    "keywords": ["eighteenplus", "agegateway", "agegate"],
+    "homepage": "https://www.18plus.org/",
     "type": "library",
     "license": "BSD-3-Clause",
-    "version": "2.1.8",
+    "version": "2.2.0",
     "authors": [
         {
             "name": "***",

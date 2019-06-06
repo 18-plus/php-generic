@@ -179,4 +179,13 @@ class Utils
         }    
         return $im;  
     } 
+    
+    public static function toHours($options)
+    {
+        if (empty($options) || !is_array($options)) {
+            return null;
+        }
+        
+        return $options['d'] * 24 + $options['h'] + $options['m'] / 60;
+    }
 }
