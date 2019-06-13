@@ -39,7 +39,7 @@ class AgeGate
         }
         
         // postback request
-        if (isset($_REQUEST['jwt'])) {
+        if (strpos($_SERVER['REQUEST_URI'], 'ageverificationpostback') !== false) {
             echo $this->callbackVerify();
             exit;
         }
@@ -228,23 +228,25 @@ class AgeGate
     
     public function callbackVerify() 
     {
+        $input = json_decode(file_get_contents('php://input'), true);
+        if (!isset($input['jwt'])) {
+            return 'error';
+        }
+        
         try {
-            if (!isset($_REQUEST['jwt'])) {
-                return 'error';
-            }
-            
-            $jwt = $_REQUEST['jwt'];
+            $jwt = $input['jwt'];
             $publicKey = base64_decode(Utils::$JWT_PUB);
-            $decoded = JWT::decode($jwt, $publicKey, ['HS256']);
+            JWT::$leeway = 270;
+            $decoded = JWT::decode($jwt, $publicKey, ['RS256']);
             
-            session_id($decoded);
+            session_id($decoded->agid);
             session_start();
             
             $_SESSION['ageVerified'] = true;
             
             return 'complete';
-        } catch (\Exception $e) {
-            return 'error';
+        } catch (\Firebase\JWT\BeforeValidException $e) {
+            return 'validation_error';
         }
     }
 

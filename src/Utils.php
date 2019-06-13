@@ -78,10 +78,7 @@ class Utils
         $AgeCheckURL1 = self::$AgeCheckURL1;
         $AgeCheckURL2 = self::$AgeCheckURL2;
         
-        $publicKey = base64_decode(Utils::$JWT_PUB);
-        $encoded = JWT::encode(session_id(), $publicKey, 'HS256');
-        
-        $postback = $baseUrl . '?jwt=' . $encoded;
+        $postback = $baseUrl . '/ageverificationpostback';
         
         // detect deepurl for ios devices
         $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
@@ -95,10 +92,29 @@ class Utils
         }
         
         $deep = $deep ? 'true' : 'false';
+        $agent = self::agentUrl($ua);
         
-        $url = ${'AgeCheckURL' . $type} . "?postback=".urlencode($postback)."&deep={$deep}&agent=" .urlencode($ua);
+        $url = ${'AgeCheckURL' . $type} . "?postback=".urlencode($postback)."&deep={$deep}&agent=".$agent. '&agid=' . session_id();
         
         return $url;
+    }
+    
+    protected static function agentUrl($ua)
+    {
+        $agent = 'chrome';
+        if ((strpos($ua, "Opera") !== false || strpos($ua, "OPR") !== false)) {
+            $agent = 'opera';
+        } else if (strpos($ua, "Chrome") !== false || strpos($ua, "CriOS") !== false ) {
+            $agent = 'chrome';
+        } else if (strpos($ua, "Safari") !== false) {
+            $agent = 'safari';
+        } else if (strpos($ua, "Firefox") !== false) {
+            $agent = 'firefox';
+        } else if (preg_match('~MSIE|Internet Explorer~i', $ua) || (strpos($ua, 'Trident/7.0') !== false && strpos($ua, 'rv:11.0') !== false)) {
+            $agent = 'ie';
+        }
+        
+        return $agent;
     }
     
     public static function insertLogo($qrCode, $siteLogo = null)
@@ -107,9 +123,9 @@ class Utils
         $qr_height = imagesy($qr);
         $qr_width  = imagesx($qr);
         
-        $padding = $qr_height / 4 * 0.1;
-        $logo_height = $qr_height / 4;
-        $logo_width = $qr_width / 4;
+        $padding = $qr_height / 5 * 0.1;
+        $logo_height = $qr_height / 5;
+        $logo_width = $qr_width / 5;
         
         $base_height = $logo_height + $padding * 2;
         $base_width = $logo_width + $padding * 2;
@@ -186,6 +202,6 @@ class Utils
             return null;
         }
         
-        return $options['d'] * 24 + $options['h'] + $options['m'] / 60;
+        return intval($options['d']) * 24 + intval($options['h']) + intval($options['m']) / 60;
     }
 }
