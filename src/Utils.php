@@ -7,8 +7,7 @@ use Firebase\JWT\JWT;
 
 class Utils
 {
-    static $AgeCheckURL1 = "https://applink.18plus.org/agecheck";
-    static $AgeCheckURL2 = "org18plus://agecheck";
+    static $AgeCheckURL = "https://applink.18plus.org/agecheck";
     
     static $JWT_PUB = 'LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUlJQklqQU5CZ2txaGtpRzl3MEJBUUVGQUFPQ0FROEFNSUlCQ2dLQ0FRRUF6YjRtcjhqcHh3NXJSU2pqK1NEQQo2cG9GNlFmaXp4dEtUZlVWQTYwTG1XTXJQeS93MWF4KzBsb1lxWWRYT2lVRmhETWhSQ2JiQjVaTmhzcDFEbklnCm03NTdVMldIaXJhOVFQcUNXTmo4Ymo0L1dxN0FwT3hFT0ZQVWFLeTVZZlRjaWQxU3VLWHpZNDNWa21NYUdUYnUKOXFJTWRzcitHU2lTTmdzZlNEcVNIeG4wL0Z5aFFkZTcwbWZjMTh1V3h5ZGVXTm5hRkhjeUZpMWFsbWUyZGREZQpHSlRta043YkZUT2ZHZXM5RkdDZWZzckI3MDRMcE8wcHo2ZjhHNlhsVmZQb0IwY2liWno3SlpHU0g5bHB1RkVkCm5MM2RVRFdvL3BBNzR3REJsSncrVThZWkN3eG1jeFZLVWRwejV1ZUJOMGc1WnN0czhjQjV6Y2V2aHZHSUIzazMKOVFJREFRQUIKLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==';
     
@@ -75,26 +74,14 @@ class Utils
     
     public static function makeUrl($baseUrl, $deep = false) 
     {
-        $AgeCheckURL1 = self::$AgeCheckURL1;
-        $AgeCheckURL2 = self::$AgeCheckURL2;
+        $AgeCheckURL = self::$AgeCheckURL;
         
         $postback = $baseUrl . '/ageverificationpostback';
-        
-        // detect deepurl for ios devices
-        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        if ($deep) {
-            $type = 2;
-            if (strpos($ua, "iPhone") || strpos($ua, "iPad")) {
-                $type = 1;
-            }
-        } else {
-            $type = 1;
-        }
         
         $deep = $deep ? 'true' : 'false';
         $agent = self::agentUrl($ua);
         
-        $url = ${'AgeCheckURL' . $type} . "?postback=".urlencode($postback)."&deep={$deep}&agent=".$agent. '&agid=' . session_id();
+        $url = $AgeCheckURL . "?postback=".urlencode($postback)."&deep={$deep}&agent=".$agent. '&agid=' . session_id();
         
         return $url;
     }
