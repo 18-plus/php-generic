@@ -1,5 +1,5 @@
 <?php
-namespace EighteenPlus\AgeGate;
+namespace EighteenPlus\AgeGateway;
 
 require("GbIpData.php");
 

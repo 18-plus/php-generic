@@ -1,6 +1,6 @@
 <?php
 
-namespace EighteenPlus\AgeGate;
+namespace EighteenPlus\AgeGateway;
 
 use Jaybizzle\CrawlerDetect\Fixtures\Exclusions;
 

@@ -1,11 +1,11 @@
 {
-    "name": "eighteenplus/agegate",
+    "name": "eighteenplus/agegateway",
     "description": "18+ Age Gateway for Adult Websites",
-    "keywords": ["eighteenplus", "agegateway", "agegate"],
+    "keywords": ["eighteenplus", "agegateway"],
     "homepage": "https://www.18plus.org/",
     "type": "library",
     "license": "BSD-3-Clause",
-    "version": "2.2.1",
+    "version": "2.2.2",
     "authors": [
         {
             "name": "***",
@@ -24,7 +24,7 @@
     },
     "autoload": {
         "psr-4": {
-            "EighteenPlus\\AgeGate\\": "src/"
+            "EighteenPlus\\AgeGateway\\": "src/"
         }
     }
 }

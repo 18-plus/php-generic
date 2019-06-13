@@ -1,16 +1,16 @@
 <?php
-namespace EighteenPlus\AgeGate;
+namespace EighteenPlus\AgeGateway;
 
 use Firebase\JWT\JWT;
 use jucksearm\barcode\QRcode;
 
-class AgeGate 
+class AgeGateway 
 {
     public function __construct($baseUrl = '')
     {
         $this->baseUrl = $baseUrl;
         
-        $this->title = 'The AgeGate Page';
+        $this->title = 'The AgeGateway Page';
         $this->siteLogo = null;
         
         $this->siteName = null;

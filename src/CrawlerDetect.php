@@ -1,6 +1,6 @@
 <?php
 
-namespace EighteenPlus\AgeGate;
+namespace EighteenPlus\AgeGateway;
 
 class CrawlerDetect extends \Jaybizzle\CrawlerDetect\CrawlerDetect
 {
