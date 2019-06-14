@@ -13,6 +13,9 @@ class AgeGateway
         $this->title = 'The AgeGateway Page';
         $this->siteLogo = null;
         
+        $this->showAgeGatewayLogo = true;
+        $this->showBackgroundImage = true;
+        
         $this->siteName = null;
         $this->customText = null;
         $this->customLocation = 'top';
@@ -108,6 +111,20 @@ class AgeGateway
     {
         if ($logo) {            
             $this->siteLogo = $logo;
+        }
+    }
+    
+    public function setShowAgeGatewayLogo($showAgeGatewayLogo)
+    {
+        if (!is_null($showAgeGatewayLogo)) {            
+            $this->showAgeGatewayLogo = (bool)$showAgeGatewayLogo;
+        }
+    }
+    
+    public function setShowBackgroundImage($showBackgroundImage)
+    {
+        if (!is_null($showBackgroundImage)) {            
+            $this->showBackgroundImage = (bool)$showBackgroundImage;
         }
     }
     
@@ -266,6 +283,9 @@ class AgeGateway
             'title'     => $this->title,
             'siteLogo'  => $this->siteLogo,
             'showLogo'  => $this->siteLogo ? 'display: block' : 'display: none;',
+            
+            'showAgeGatewayLogo' => $this->showAgeGatewayLogo ? 'display: block;' : 'display: none;',
+            'showBackgroundImage' => $this->showBackgroundImage ? '' : 'background-size: 0 0;',
             
             'siteName'  => $this->siteName,
             'customText'  => $this->customText,
