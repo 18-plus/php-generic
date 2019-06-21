@@ -79,6 +79,7 @@ class Utils
         $postback = $baseUrl . '/ageverificationpostback';
         
         $deep = $deep ? 'true' : 'false';
+        $ua = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
         $agent = self::agentUrl($ua);
         
         $url = $AgeCheckURL . "?postback=".urlencode($postback)."&deep={$deep}&agent=".$agent. '&agid=' . session_id();
